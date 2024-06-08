@@ -27,11 +27,20 @@
         --bs-font-sans-serif: "DM Sans", sans-serif;
       }
 
+      body {
+        scroll-behavior: smooth;
+      }
+
       @media (min-width: 576px) {
         .card {
           border: 0;
           box-shadow: rgb(0 0 0 / 5%) 0px 10px 20px;
           border-radius: 10px;
+          transition: transform 0.3s;
+        }
+
+        .card:hover {
+          transform: scale(1.05);
         }
 
         .card-img-top {
@@ -39,6 +48,20 @@
           height: 20vw;
           object-fit: cover;
         }
+      }
+
+      .navbar {
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 1.1);
+      }
+
+      .modal-header,
+      .modal-footer {
+        border: 0;
+      }
+
+      .btn-close {
+        background-color: transparent;
+        border: none;
       }
     </style>
 
@@ -75,7 +98,7 @@
       <main id="marketplace" class="row"></main>
     </div>
 
-<!--Modal-->
+    <!-- Modal -->
     <div
       class="modal fade"
       id="addModal"
@@ -160,13 +183,48 @@
         </div>
       </div>
     </div>
-<!--/Modal-->
+    <!-- /Modal -->
 
     <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
-    crossorigin="anonymous"
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+      crossorigin="anonymous"
     ></script>
     <script src="https://unpkg.com/ethereum-blockies@0.1.1/blockies.min.js"></script>
+
+    <script>
+      document.getElementById('newProductBtn').addEventListener('click', function() {
+        const name = document.getElementById('newProductName').value;
+        const imgUrl = document.getElementById('newImgUrl').value;
+        const description = document.getElementById('newProductDescription').value;
+        const location = document.getElementById('newLocation').value;
+        const price = document.getElementById('newPrice').value;
+
+        if (name && imgUrl && description && location && price) {
+          const marketplace = document.getElementById('marketplace');
+          
+          const card = document.createElement('div');
+          card.className = 'col-md-4 mb-4';
+          card.innerHTML = `
+            <div class="card">
+              <img src="${imgUrl}" class="card-img-top" alt="${name}">
+              <div class="card-body">
+                <h5 class="card-title">${name}</h5>
+                <p class="card-text">${description}</p>
+                <p class="card-text"><small class="text-muted">${location}</small></p>
+                <p class="card-text fw-bold">${price} cUSD</p>
+              </div>
+            </div>
+          `;
+          marketplace.appendChild(card);
+
+          document.getElementById('newProductName').value = '';
+          document.getElementById('newImgUrl').value = '';
+          document.getElementById('newProductDescription').value = '';
+          document.getElementById('newLocation').value = '';
+          document.getElementById('newPrice').value = '';
+        }
+      });
+    </script>
   </body>
 </html>
